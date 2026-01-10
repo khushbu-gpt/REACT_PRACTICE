@@ -114,7 +114,6 @@ const Test3 = () => {
   highValueUsers: []
 });
 
-// derive final values
 const finalResult = {
   highValueUsers: result.highValueUsers,
   averageOrderValue: result.totalAmount / result.totalOrders,
