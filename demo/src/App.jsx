@@ -1,6 +1,9 @@
 import { useState, useMemo, useCallback } from "react";
 import ProductItem from "./components/ProductList/ProductItem";
 import LoginForm from "./components/LoginForm";
+import CharCounter from "./components/CharCounter";
+import Cart from "./components/Cart/Cart";
+import Navbar from "./components/Navbar";
 
 const PRODUCTS = [
   { id: 1, name: "Milk", price: 50 },
@@ -33,8 +36,8 @@ export default function App() {
   }, [filteredProducts]);
 
   return (
-    <div className="mx-10">
-      <h2 className="my-4">PRODUCTS</h2>
+    <div className="">
+      {/* <h2 className="my-4">PRODUCTS</h2> */}
 
       {/* <input
         type="text"
@@ -53,7 +56,10 @@ export default function App() {
           <ProductItem key={product.id} product={product} />
         ))}
       </div> */}
-      <LoginForm/>
+      {/* <LoginForm/> */}
+      {/* <CharCounter/> */}
+      <Navbar/>
+      <Cart/>
     </div>
   );
 }
