@@ -8,7 +8,7 @@ const ProductCard = React.memo(({ product, onAdd,onDecrease }) => {
       <div
         key={product.id}
         className="bg-amber-300 w-48 h-48 rounded-sm shadow flex gap-4
-             flex-col justify-center items-center "
+         flex-col justify-center items-center "
       >
         {product.name} - ₹{product.price}
         <div>
