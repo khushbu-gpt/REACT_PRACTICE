@@ -1,61 +1,44 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
+import ProductCard from "../ProductList/ProductCard";
+import { useCart } from "../CartContext";
 
 const Cart = () => {
-  const products = [
-    { id: 1, name: "Milk", price: 50 },
-    { id: 2, name: "Bread", price: 40 },
-    { id: 3, name: "Eggs", price: 60 },
-  ];
-  const [cart, setCart] = useState([]);
-
- function addToCart(product) {
-  setCart((prevCart) => {
-    const exists = prevCart.find((item) => item.id === product.id);
-
-    if (exists) {
-  
-      return prevCart.map((item) =>
-        item.id === product.id
-          ? { ...item, qty: item.qty + 1 }
-          : item
-      );
-    }
-
-
-    return [...prevCart, { ...product, qty: 1 }];
-  });
-}
-const total=cart.reduce((acc,curr)=>acc+curr.price*curr.qty,0)
+  const { addToCart, decreaseQty, removeItem, cart } = useCart();
+  const total = useMemo(() => {
+    return cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  }, [cart]);
   return (
     <div className="w-full">
-      <div className="flex gap-10 my-10 mx-auto w-full">
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className="bg-amber-300 w-48 h-48 rounded-sm shadow flex gap-4
-             flex-col justify-center items-center "
-          >
-            <p>{product.name}</p>
-            <p>{product.price}</p>
-            <button
-              className="bg-white rounded shadow px-6 py-2 cursor-pointer"
-              onClick={() => addToCart(product)}
-            >
-              Add to Cart
-            </button>
-          </div>
-        ))}
-      </div>
-      <hr className="border border-gray-200" />
+ 
       {cart.length == 0 && <p>Your Cart is Empty</p>}
       <div className="w-full flex gap-5 flex-col">
         {cart.map((products) => {
-          return <div className="w-full bg-amber-50" key={products.id}>
-            <p>Name:{products.name}</p>
-            <p>Price:{products.price  }</p>
+          return (
+            <div className="w-full bg-amber-50" key={products.id}>
+              <p>Name:{products.name}</p>
+              <p>Price:{products.price}</p>
               <p>qty:{products?.qty}</p>
-              <p>Total:{products.price*products.qty||1}</p>
-          </div>
+              <button
+                className="w-14 h-7 bg-blue-500 rounded"
+                onClick={() => decreaseQty(products.id)}
+              >
+                -
+              </button>
+              <button
+                className="w-14 h-7 rounded bg-gray-300"
+                onClick={() => addToCart(products)}
+              >
+                +
+              </button>
+              <button
+                className="w-20 h-7 rounded bg-red-300"
+                onClick={() => removeItem(products.id)}
+              >
+                Remove
+              </button>
+              {/* <p>Total:{products.price * products.qty || 1}</p> */}
+            </div>
+          );
         })}
         <p>Total:{total}</p>
       </div>

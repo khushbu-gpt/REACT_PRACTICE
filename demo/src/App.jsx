@@ -4,8 +4,10 @@ import LoginForm from "./components/LoginForm";
 import CharCounter from "./components/CharCounter";
 import Cart from "./components/Cart/Cart";
 import Navbar from "./components/Navbar";
+import ProductCard from "./components/ProductList/ProductCard";
+import { useCart } from "./components/CartContext";
 
-const PRODUCTS = [
+const products = [
   { id: 1, name: "Milk", price: 50 },
   { id: 2, name: "Bread", price: 40 },
   { id: 3, name: "Eggs", price: 60 },
@@ -14,26 +16,27 @@ const PRODUCTS = [
 ];
 
 export default function App() {
-  const [search, setSearch] = useState("");
+  const {addToCart,decreaseQty}=useCart()
+  // const [search, setSearch] = useState("");
 
-  // ✅ memoized handler
-  const handleSearch = useCallback((e) => {
-    setSearch(e.target.value);
-  }, []);
+  // // ✅ memoized handler
+  // const handleSearch = useCallback((e) => {
+  //   setSearch(e.target.value);
+  // }, []);
 
-  // ✅ memoized filtered products
-  const filteredProducts = useMemo(() => {
-    if (!search) return PRODUCTS;
+  // // ✅ memoized filtered products
+  // const filteredProducts = useMemo(() => {
+  //   if (!search) return PRODUCTS;
 
-    return PRODUCTS.filter((product) =>
-      product.name.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [search]);
+  //   return PRODUCTS.filter((product) =>
+  //     product.name.toLowerCase().includes(search.toLowerCase())
+  //   );
+  // }, [search]);
 
-  // ✅ memoized total price
-  const totalPrice = useMemo(() => {
-    return filteredProducts.reduce((acc, curr) => acc + curr.price, 0);
-  }, [filteredProducts]);
+  // // ✅ memoized total price
+  // const totalPrice = useMemo(() => {
+  //   return filteredProducts.reduce((acc, curr) => acc + curr.price, 0);
+  // }, [filteredProducts]);
 
   return (
     <div className="">
@@ -59,6 +62,12 @@ export default function App() {
       {/* <LoginForm/> */}
       {/* <CharCounter/> */}
       <Navbar/>
+          <div className="flex gap-10 my-10 mx-auto w-full">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} onAdd={addToCart} onDecrease={decreaseQty}/>
+              ))}
+            </div>
+            <hr className="border border-gray-200" />
       <Cart/>
     </div>
   );
