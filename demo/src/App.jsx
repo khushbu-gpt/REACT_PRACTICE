@@ -19,12 +19,10 @@ export default function App() {
   const {addToCart,decreaseQty}=useCart()
   const [search, setSearch] = useState("");
 
-  // ✅ memoized handler
   const handleSearch = useCallback((e) => {
     setSearch(e.target.value);
   }, []);
 
-  // ✅ memoized filtered products
   const filteredProducts = useMemo(() => {
     if (!search) return PRODUCTS;
 
@@ -33,7 +31,6 @@ export default function App() {
     );
   }, [search]);
 
-  // ✅ memoized total price
   const totalPrice = useMemo(() => {
     return filteredProducts.reduce((acc, curr) => acc + curr.price, 0);
   }, [filteredProducts]);
@@ -59,7 +56,6 @@ export default function App() {
           <ProductItem key={product.id} product={product} />
         ))}
       </div>
-      {/* <LoginForm/> */}
       <CharCounter/>
       <Navbar/>
           <div className="flex gap-10 my-10 mx-auto w-full">
