@@ -41,7 +41,7 @@ const UserLists = () => {
       <div className="flex gap-5 flex-wrap items-baseline justify-center my-5 py-5 bg-yellow-50">
         {users.slice(0, 3)?.map((user) => {
           return (
-            <div>
+            <div key={user.name}>
               <img src={user.avatar} height={250} width={250} alt={user.name} />
               <p className="text-xl py-2 px-1">{user?.name}</p>
             </div>
