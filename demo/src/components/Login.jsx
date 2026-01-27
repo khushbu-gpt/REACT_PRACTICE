@@ -1,11 +1,20 @@
-import React from 'react'
-
+import React, { useState } from "react";
+import { loginApi } from "./../api/authApi";
 const Login = () => {
-  return (
-    <div>
-      Hello, User
-    </div>
-  )
-}
+  const [email,setEmail]=useState("")
+  const [password,setPassword]=useState("")
+  
+  const handleLogin = async () => {
+    try {
+      const res = await loginApi({ email, password });
+      localStorage.setItem("token", res.data.token);
+      // navigate("/dashboard");
+    } catch (err) {
+      alert("Login failed");
+    }
+  };
 
-export default Login
+  return <div>Hello, User</div>;
+};
+
+export default Login;
