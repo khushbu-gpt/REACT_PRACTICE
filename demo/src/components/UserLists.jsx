@@ -4,13 +4,15 @@ import api from "../api/axiosInstance";
 const UserLists = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [users, setUser] = useState([]);
 
   useEffect(() => {
     (async function () {
       try {
         setLoading(true);
         const res = await api.get("/users");
-        console.log(res.data);
+        setUser(res.data);
+        console.log(res);
       } catch (err) {
         setError(err.response?.data?.message);
       } finally {
@@ -18,21 +20,36 @@ const UserLists = () => {
       }
     })();
   }, []);
-  useEffect(() => {
-    const controller = new AbortController();
 
-    api.get("/users", {
-      signal: controller.signal,
-    });
+  // useEffect(() => {
+  //   const controller = new AbortController();
 
-    return () => {
-      controller.abort();
-    };
-  }, []);
+  //   api.get("/users", {
+  //     signal: controller.signal,
+  //   });
+
+  //   return () => {
+  //     controller.abort();
+  //   };
+  // }, []);
 
   if (loading) return <div>Loadng...</div>;
   if (error) return console.log(error);
-  return <div></div>;
+  return (
+    <div>
+      <h1 className="text-4xl font-semibold text-center">Users</h1>
+      <div className="flex gap-5 flex-wrap items-baseline justify-center my-5 py-5 bg-yellow-50">
+        {users.slice(0, 3)?.map((user) => {
+          return (
+            <div>
+              <img src={user.avatar} height={250} width={250} alt={user.name} />
+              <p className="text-xl py-2 px-1">{user?.name}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 };
 
 export default UserLists;
