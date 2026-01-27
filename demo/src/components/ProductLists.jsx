@@ -24,16 +24,26 @@ const ProductLists = () => {
   if (error) return console.log(error);
   return (
     <>
-    <h1 className="text-4xl font-semibold text-center  ">Our Products</h1>
-    <div className="flex gap-4 flex-wrap my-4 justify-center ">
-      {products?.map((product) => (
-        <div>
-           <img src={product.category.image} height={250} width={250}/>
-          <p>{product.title}</p>
-          {/* <p>{product.description}</p> */}
-        </div>
-      ))}
-    </div>
+      <h1 className="text-4xl font-semibold text-center  ">Our Products</h1>
+      <div className="flex gap-4 flex-wrap my-4 justify-center ">
+        {products.slice(15, products.length - 4).map((product) => (
+          <div key={product.title}>
+            {/* <img src={product.category.image} height={250} width={250} /> */}
+            {product.images.map((image) => (
+              <img
+                src={image}
+                height={250}
+                width={250}
+                alt={product.title}
+                key={image}
+              />
+            ))}
+            <p>{product.title}</p>
+
+            {/* <p>{product.description}</p> */}
+          </div>
+        ))}
+      </div>
     </>
   );
 };
